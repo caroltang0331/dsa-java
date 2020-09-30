@@ -19,4 +19,4 @@ public class SortQuizTest extends SortTest {
         testRuntime(new ShellSortKnuth<>(), new ShellSortQuiz<>());
         testRuntime(new LSDRadixSort(), new RadixSortQuiz());
     }
-}ddddd
+}
