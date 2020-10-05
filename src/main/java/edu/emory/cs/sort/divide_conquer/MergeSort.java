@@ -64,6 +64,7 @@ public class MergeSort<T extends Comparable<T>> extends AbstractSort<T> {
                 assign(input, k, copy[fst++]);
             else
                 assign(input, k, copy[snd++]);
+
         }
     }
 }
