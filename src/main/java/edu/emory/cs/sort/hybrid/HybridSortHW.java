@@ -69,10 +69,6 @@ public class HybridSortHW<T extends Comparable<T>> implements HybridSort<T> {
 
     }
 
-    protected void assign(T[] array, int index, T value) {
-        array[index] = value;
-    }
-
 
     public void merge(int[] trackCount, T[] input, T[] copy, int beginIndex, int middleIndex, int endIndex) {
         int fst = trackCount[beginIndex], snd = trackCount[middleIndex], n = trackCount[endIndex] - trackCount[beginIndex];
@@ -80,13 +76,13 @@ public class HybridSortHW<T extends Comparable<T>> implements HybridSort<T> {
 
         for (int k = fst; k < trackCount[endIndex]; k++) {
             if (fst >= trackCount[middleIndex])
-                assign(input, k, copy[snd++]);
+                input[k] = copy[snd++];
             else if (snd >= trackCount[endIndex])
-                assign(input, k, copy[fst++]);
+                input[k] = copy[fst++];
             else if (copy[fst].compareTo(copy[snd]) < 0)
-                assign(input, k, copy[fst++]);
+                input[k] = copy[fst++];
             else
-                assign(input, k, copy[snd++]);
+                input[k] = copy[snd++];
 
         }
     }
@@ -140,7 +136,6 @@ public class HybridSortHW<T extends Comparable<T>> implements HybridSort<T> {
         T[] output = (T[])Array.newInstance(input[0][0].getClass(), size);
         T[] temp = (T[])Array.newInstance(input[0][0].getClass(), size);
         int beginIndex = 0;
-
         for (T[] t : input) {
             System.arraycopy(t, 0, output, beginIndex, t.length);
             beginIndex += t.length;
