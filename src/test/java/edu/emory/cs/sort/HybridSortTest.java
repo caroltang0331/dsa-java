@@ -23,8 +23,7 @@ public class HybridSortTest {
         HybridSort<Integer> gold = new HybridSortBaseline<>();
         HybridSort<Integer> mine = new HybridSortHW<>();  // TODO: replace with your class
 
-        Integer[][] input = {{0, 1, 2, 3,}, {7, 6, 5, 4}, {0, 3, 1, 2}, {4, 7, 6, 5}, {9, 8, 11, 10, 13, 4, 0}};
-        //{{0, 1, 2, 3, 4, 5, 7, 8}, {12, 9, 8, 8, 7, 6, 5, 4}, {0, 3, 1, 2, 3, 3, 0, 5}, {11, 12, 9, 8, 4, 7, 6, 5}, {9, 8, 11, 10, 17, 2, 3, 1}};
+        Integer[][] input = {{1,2,3,4 }, {7,6,5,4}, {1,4,2,3}, {7,4,6,5}, {5,2,8,1}};
         testRobustness(input, gold, mine);
 
         for (int row = 10; row <= 20; row++) //10 20
