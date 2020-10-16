@@ -1,6 +1,5 @@
 package edu.emory.cs.trie;
 
-
 import org.junit.Test;
 
 import java.util.List;
@@ -14,13 +13,13 @@ import static org.junit.Assert.assertEquals;
 public class TrieQuizTest {
     @Test
     public void testGetEntities() {
-        final List<String> L = List.of("United","United States", "South Korea", "States of America","England", "Costaa");
+        final List<String> L = List.of("United States", "South Korea", "United HO");
         TrieQuiz trie = new TrieQuiz();
         for (int i = 0; i < L.size(); i++)
             trie.put(L.get(i), i);
 
-        String input = "Costa born in South Korea and France in the United States of America ho";
-        List<Entity> entities = List.of(new Entity(44,50,0), new Entity(44, 57, 1), new Entity(51, 68, 3),new Entity(14, 25, 2));
+        String input = "I was born in South Korea and raised in the United States of America United HO";
+        List<Entity> entities = List.of(new Entity(69,78,2),new Entity(44, 57, 0), new Entity(14, 25, 1));
         Set<String> expected = entities.stream().map(Entity::toString).collect(Collectors.toSet());
         Set<String> actual = trie.getEntities(input).stream().map(Entity::toString).collect(Collectors.toSet());
         assertEquals(expected, actual);

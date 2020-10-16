@@ -26,7 +26,6 @@ public class TrieQuiz extends Trie<Integer> {
                 int beginIndex = indexCount[i];
                 if (this.contains(splitSpace[i])) result.add(new Entity(indexCount[i], indexCount[i + 1] - 1, this.get(splitSpace[i])));
                 String temp = splitSpace[i];
-                System.out.println("temp is line29: " + temp);
                 int j = i;
                 while (j + 1 < splitSpace.length && this.find(temp + " " + splitSpace[j + 1]) != null) {
                     temp = temp + " " + splitSpace[j + 1];
