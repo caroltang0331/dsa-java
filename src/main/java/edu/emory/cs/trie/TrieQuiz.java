@@ -21,7 +21,7 @@ public class TrieQuiz extends Trie<Integer> {
             indexCount[i] = splitSpace[i - 1].length() + indexCount[i - 1] + 1;
         }
 
-        for (int i = 0; i < splitSpace.length; ) {
+        for (int i = 0; i < splitSpace.length; i++) {
             if (this.find(splitSpace[i]) != null) {
                 int beginIndex = indexCount[i];
                 if (this.contains(splitSpace[i])) result.add(new Entity(indexCount[i], indexCount[i + 1] - 1, this.get(splitSpace[i])));
@@ -32,9 +32,9 @@ public class TrieQuiz extends Trie<Integer> {
                     i++;
                 }
             }
-            i++;
         }
 
         return result;
-    }}
+    }
+}
 
