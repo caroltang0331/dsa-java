@@ -25,11 +25,14 @@ public class TrieQuiz extends Trie<Integer> {
             if (this.find(splitSpace[i]) != null) {
                 int beginIndex = indexCount[i];
                 if (this.contains(splitSpace[i])) result.add(new Entity(indexCount[i], indexCount[i + 1] - 1, this.get(splitSpace[i])));
-                while (i + 1 < splitSpace.length && this.find(splitSpace[i] + " " + splitSpace[i + 1]) != null) {
-                    splitSpace[i + 1] = splitSpace[i] + " " + splitSpace[i + 1];
-                    if (this.contains(splitSpace[i + 1]))
-                        result.add(new Entity(beginIndex, beginIndex + splitSpace[i + 1].length(), this.get(splitSpace[i + 1])));
-                    i++;
+                String temp = splitSpace[i];
+                System.out.println("temp is line29: " + temp);
+                int j = i;
+                while (j + 1 < splitSpace.length && this.find(temp + " " + splitSpace[j + 1]) != null) {
+                    temp = temp + " " + splitSpace[j + 1];
+                    if (this.contains(temp))
+                        result.add(new Entity(beginIndex, beginIndex + temp.length(), this.get(temp)));
+                    j++;
                 }
             }
         }
