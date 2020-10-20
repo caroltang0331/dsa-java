@@ -8,35 +8,22 @@ public class TrieQuiz extends Trie<Integer> {
     /**
      * PRE: this trie contains all country names as keys and their unique IDs as values
      * (e.g., this.get("United States") -> 0, this.get("South Korea") -> 1).
+     *
      * @param input the input string in plain text
      *              (e.g., "I was born in South Korea and raised in the United States").
      * @return the list of entities (e.g., [Entity(14, 25, 1), Entity(44, 57, 0)]).
      */
     List<Entity> getEntities(String input) {
         List<Entity> result = new ArrayList<Entity>();
-        String[] splitSpace = input.split(" ");
-        int[] indexCount = new int[splitSpace.length];
-        indexCount[0] = 0;
-        for (int i = 1; i < splitSpace.length; i++) {
-            indexCount[i] = splitSpace[i - 1].length() + indexCount[i - 1] + 1;
-        }
-
-        for (int i = 0; i < splitSpace.length; i++) {
-            if (this.find(splitSpace[i]) != null) {
-                int beginIndex = indexCount[i];
-                if (this.contains(splitSpace[i])) result.add(new Entity(indexCount[i], indexCount[i + 1] - 1, this.get(splitSpace[i])));
-                String temp = splitSpace[i];
-                int j = i;
-                while (j + 1 < splitSpace.length && this.find(temp + " " + splitSpace[j + 1]) != null) {
-                    temp = temp + " " + splitSpace[j + 1];
-                    if (this.contains(temp))
-                        result.add(new Entity(beginIndex, beginIndex + temp.length(), this.get(temp)));
+        for (int i = 0; i < input.length(); i++) {
+            if (this.find(input.substring(i, i + 1)) != null) {
+                int j = i + 2;
+                while (j <= input.length() && this.find(input.substring(i, j)) != null) {
+                    if (this.contains(input.substring(i, j))) result.add(new Entity(i, j,this.get(input.substring(i, j))));
                     j++;
                 }
             }
         }
-
         return result;
     }
 }
-
