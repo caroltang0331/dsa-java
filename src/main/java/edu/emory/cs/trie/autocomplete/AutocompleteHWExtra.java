@@ -1,18 +1,18 @@
 package edu.emory.cs.trie.autocomplete;
+
 import edu.emory.cs.trie.TrieNode;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.Map;
+import java.util.Map.Entry;
+
 /**
  * @author Jinho D. Choi ({@code jinho.choi@emory.edu})
  */
-public class AutocompleteHW extends Autocomplete<List<String>> {
-    public AutocompleteHW(String dict_file, int max) {
+public class AutocompleteHWExtra extends Autocomplete<List<String>> {
+    public AutocompleteHWExtra(String dict_file, int max) {
         super(dict_file, max);
     }
-
     public String toString(TrieNode<List<String>> node) {
         if (node.getParent() != null) return toString(node.getParent()) + node.getKey();
         else return "";
@@ -49,12 +49,23 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
         }
         else {
             TrieNode<List<String>> lastNode = this.find(prefix);
+            Map<String, Integer> map = new LinkedHashMap<>();
+            for (int i = 0; i < lastNode.getValue().size(); i++) {
+                map.put(lastNode.getValue().get(i), 1 + map.getOrDefault(lastNode.getValue().get(i), 0)); }
+            List<Entry<String, Integer>> frequencyList = new ArrayList<Entry<String,Integer>>(map.entrySet());
+            Collections.sort(frequencyList, new Comparator<Entry<String, Integer>>() {
+                @Override
+                public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+                    return - Integer.compare(o1.getValue(), o2.getValue());
+                }
+            });
+
             List<String> result = new ArrayList<String>();
             int i = 0;
-            while (i < getMax() && i < lastNode.getValue().size()) {
-                if(unrefinedResult.contains(lastNode.getValue().get(i)))
-                    unrefinedResult.remove(lastNode.getValue().get(i));
-                result.add(lastNode.getValue().get(i++));
+            while (i < getMax() && i < frequencyList.size()) {
+                if(unrefinedResult.contains(frequencyList.get(i).getKey()))
+                    unrefinedResult.remove(frequencyList.get(i).getKey());
+                result.add(frequencyList.get(i++).getKey());
             }
             i = 0;
             while (result.size() < getMax() && i < unrefinedResult.size()) result.add(unrefinedResult.get(i++));
@@ -75,10 +86,8 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
             value.add(candidate);
             lastNode.setValue(value);;
         }
-        else if (lastNode != null) {
-            if (lastNode.getValue().contains(candidate)) lastNode.getValue().remove(candidate);
-            this.find(prefix).getValue().add(0, candidate);
-        }
+        else if (lastNode != null) this.find(prefix).getValue().add(0, candidate);
+
         else {
             List<String> value = new ArrayList<String>();
             value.add(candidate);
@@ -86,4 +95,5 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
             this.find(prefix).setEndState(false);
         }
     }
+
 }
