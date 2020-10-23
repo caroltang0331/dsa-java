@@ -66,13 +66,14 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
     @Override
     public void pickCandidate(String prefix, String candidate) {
         prefix = prefix.replace(" ", "");
+        candidate = candidate.replace(" ", "");
         if (this.find(candidate) == null) this.put(candidate, null);
         else this.find(candidate).setEndState(true);
         TrieNode<List<String>> lastNode = this.find(prefix);
         if (lastNode != null && lastNode.getValue() == null) {
             List<String> value = new ArrayList<String>();
             value.add(candidate);
-            lastNode.setValue(value);
+            lastNode.setValue(value);;
         }
         else if (lastNode != null) {
             if (lastNode.getValue().contains(candidate)) lastNode.getValue().remove(candidate);

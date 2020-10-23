@@ -16,7 +16,7 @@ public class AutocompleteTest {
     @Test
     public void test() {
         final String dict_file = "src/main/resources/dict.txt";
-        final int max = 6;//20
+        final int max = 5;//20
 
         Autocomplete<?> ac = new AutocompleteHW(dict_file, max);
         Eval eval = new Eval();
@@ -35,20 +35,18 @@ public class AutocompleteTest {
         expected = List.of("two including ab");
         testGetCandidates(ac, eval, prefix, expected);
 
-        prefix = "ab";
-        expected = List.of("abeeee", "hoho", "aaf", "one more should not hv abeeee");
+        prefix = "atyuib";
+        expected = List.of("abeeee", "hoho", "aaf", "atyuib", "only four");
         ac.pickCandidate(prefix, "aaf");
         ac.pickCandidate(prefix, "hoho");
         ac.pickCandidate(prefix, "abeeee");
         testGetCandidates(ac, eval, prefix, expected);
 
         prefix = "b b";
-        expected = List.of("wah", "b ba", "bbbb", "b ba", "two more should bot hv b ba");
-        ac.pickCandidate(prefix, "b ba");
-        ac.pickCandidate(prefix, "bbbb");
+        expected = List.of("wah", "b ba", "bb", "two more should bot hv b ba");
         ac.pickCandidate(prefix, "b ba");
         ac.pickCandidate(prefix, "wah");
-        System.out.println(ac.find("b ba").isEndState());
+        ac.pickCandidate(prefix, "b ba");
         testGetCandidates(ac, eval, prefix, expected);
 
         System.out.printf("Score: %d/%d\n", eval.correct, eval.total);
