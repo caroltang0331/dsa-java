@@ -1,10 +1,11 @@
 package edu.emory.cs.trie.autocomplete;
 import edu.emory.cs.trie.TrieNode;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import javax.print.CancelablePrintJob;
+import java.util.*;
+import java.util.Map;
+import java.util.Map.Entry;
+
 /**
  * @author Jinho D. Choi ({@code jinho.choi@emory.edu})
  */
@@ -18,13 +19,33 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
         else return "";
 
     }
-    public List<String> getAllWords(TrieNode<List<String>> node) {
-        List<String> result = new ArrayList<String>();
+    public List<String> getMaxWords(int max, TrieNode<List<String>> node) {
+        List<String> result = new ArrayList<>();
+        int count = 0;
         if (node.isEndState()) result.add(toString(node));
+
+        List<TrieNode<List<String>>> moreThanMaxNodes = new LinkedList<>();
         if (node.hasChildren()) {
-            for (int i = 0; i < 26; i++) {
-                if (node.getChild((char) ('a' + i)) != null) result.addAll(getAllWords(node.getChild((char) ('a' + i))));
+            List<Entry<Character, TrieNode<List<String>>>> alphabetLists = new ArrayList<Entry<Character, TrieNode<List<String>>>>();
+            alphabetLists.addAll(node.getChildrenMap().entrySet());
+            Collections.sort(alphabetLists, (o1, o2) -> Character.compare(o1.getKey(), o2.getKey()));
+            for (Entry<Character, TrieNode<List<String>>> alphabetList : alphabetLists) {
+                moreThanMaxNodes.add(alphabetList.getValue());
+            } //list of children(level1) to be search that are alphbaticaly sorted
+        }
+        while (moreThanMaxNodes.size() > 0 && count < max) {
+            TrieNode currentNode = moreThanMaxNodes.remove(0);
+            if (currentNode.isEndState()) {
+                result.add(toString(currentNode));
+                count++;
             }
+            if (currentNode.hasChildren()) {
+                List<Entry<Character, TrieNode<List<String>>>> ChildrenLists = new ArrayList<Entry<Character, TrieNode<List<String>>>>();
+                ChildrenLists.addAll(currentNode.getChildrenMap().entrySet());
+                Collections.sort(ChildrenLists, (o1, o2) -> Character.compare(o1.getKey(), o2.getKey()));
+                for (Entry<Character, TrieNode<List<String>>> ChildrenList : ChildrenLists)
+                    moreThanMaxNodes.add(ChildrenList.getValue());
+            }//first child L2
         }
         return result;
     }
@@ -33,13 +54,7 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
     public List<String> getCandidates(String prefix) {
         prefix = prefix.replace(" ", "");
         if (this.find(prefix) == null) return null;
-        List<String> unrefinedResult = getAllWords(this.find(prefix));
-        unrefinedResult.sort(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return Integer.compare(o1.length(), o2.length());
-            }
-        });
+        List<String> unrefinedResult = getMaxWords(getMax(), this.find(prefix));
 
         if (this.find(prefix) != null && this.find(prefix).getValue() == null) {
             List<String> result = new ArrayList<String>();
