@@ -16,9 +16,9 @@ public class AutocompleteTest {
     @Test
     public void test() {
         final String dict_file = "src/main/resources/dict.txt";
-        final int max = 6;//20
+        final int max = 15;//20
 
-        Autocomplete<?> ac = new AutocompleteHWExtra(dict_file, max);
+        Autocomplete<?> ac = new AutocompleteHW(dict_file, max);
         Eval eval = new Eval();
         testAutocomplete(ac, eval);
     }
@@ -49,11 +49,9 @@ public class AutocompleteTest {
         ac.pickCandidate(prefix, "aaf");
         testGetCandidates(ac, eval, prefix, expected);
 
-        prefix = "b b";
+        prefix = "abdominal";
         expected = List.of("wah", "b ba", "bb", "two more should bot hv b ba");
         ac.pickCandidate(prefix, "bba");
-        ac.pickCandidate(prefix, "b ba");
-        ac.pickCandidate(prefix, "wah");
         testGetCandidates(ac, eval, prefix, expected);
 
         System.out.printf("Score: %d/%d\n", eval.correct, eval.total);

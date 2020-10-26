@@ -22,7 +22,10 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
     public List<String> getMaxWords(int max, TrieNode<List<String>> node) {
         List<String> result = new ArrayList<>();
         int count = 0;
-        if (node.isEndState()) result.add(toString(node));
+        if (node.isEndState()) {
+            result.add(toString(node));
+            count++;
+        }
 
         List<TrieNode<List<String>>> moreThanMaxNodes = new LinkedList<>();
         if (node.hasChildren()) {
@@ -57,10 +60,7 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
         List<String> unrefinedResult = getMaxWords(getMax(), this.find(prefix));
 
         if (this.find(prefix) != null && this.find(prefix).getValue() == null) {
-            List<String> result = new ArrayList<String>();
-            int i = 0;
-            while (i < getMax() && i < unrefinedResult.size()) result.add(unrefinedResult.get(i++));
-            return result;
+            return unrefinedResult;
         }
         else {
             TrieNode<List<String>> lastNode = this.find(prefix);
