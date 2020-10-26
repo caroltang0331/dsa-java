@@ -17,8 +17,8 @@ public class AutocompleteHW extends Autocomplete<List<String>> {
     public String toString(TrieNode<List<String>> node) {
         if (node.getParent() != null) return toString(node.getParent()) + node.getKey();
         else return "";
-
     }
+
     public List<String> getMaxWords(int max, TrieNode<List<String>> node) {
         List<String> result = new ArrayList<>();
         int count = 0;
