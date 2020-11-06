@@ -29,12 +29,12 @@ public class GraphQuiz extends Graph {
         notVisited.remove(target);
         visited.add(target);
 
-
         for (Edge edge : getIncomingEdges(target)) {
             if (visited.contains(edge.getSource())) count++;
 
 
-            else return count += (containsCycleAux(edge.getSource(), notVisited, new HashSet<>(visited)));
+            else count += (containsCycleAux(edge.getSource(), notVisited, new HashSet<>(visited)));
+
         }
         return count;
 
