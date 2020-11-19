@@ -21,6 +21,9 @@ public class Subgraph {
         edges = new ArrayList<>(graph.getEdges());
         vertices = new HashSet<>(graph.getVertices());
     }
+    public String toString() {
+        return ("set of vertices: " + vertices + "list of edges: " + edges);
+    }
 
     public List<Edge> getEdges() {
         return edges;
