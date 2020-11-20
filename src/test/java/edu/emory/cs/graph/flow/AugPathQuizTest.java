@@ -20,7 +20,7 @@ public class AugPathQuizTest {
     @Test
     public void AugPathQuizTest() {
 
-        Graph graph0 = new Graph(7);
+        Graph graph0 = new Graph(6);
 //        GraphQuiz graph1 = new GraphQuiz(5);
 //        GraphQuiz graph2 = new GraphQuiz(6);
 //        GraphQuiz graph3 = new GraphQuiz(5);
@@ -33,14 +33,14 @@ public class AugPathQuizTest {
 
 //Test0#1
         graph0.setDirectedEdge(0, 1, 1);
-        graph0.setDirectedEdge(1, 2, 1);
+        graph0.setDirectedEdge(0, 2, 1);
+        graph0.setDirectedEdge(1, 3, 1);
+        graph0.setDirectedEdge(2, 4, 1);
         graph0.setDirectedEdge(2, 3, 1);
-        graph0.setDirectedEdge(3, 4, 1);
+        graph0.setDirectedEdge(3, 2, 1);
         graph0.setDirectedEdge(3, 5, 1);
-        graph0.setDirectedEdge(5, 1, 1);
-        graph0.setDirectedEdge(1, 6, 1);
-        graph0.setDirectedEdge(6, 4, 1);
-        System.out.println(nwf.getAugmentingPaths(graph0, 0,4));
+        graph0.setDirectedEdge(4, 5, 1);
+        System.out.println(nwf.getAugmentingPaths(graph0, 0,5));
 
 ////Test1#2
 //        graph1.setDirectedEdge(0, 2, 1);
