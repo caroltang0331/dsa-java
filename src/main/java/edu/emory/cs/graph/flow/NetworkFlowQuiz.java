@@ -29,7 +29,7 @@ public class NetworkFlowQuiz {
 
 
   private Set<Subgraph> getAugmentingPathAux(Graph graph, Subgraph sub, int source, int target) {
-        Set<Subgraph> result =  new HashSet<>();
+        Set<Subgraph> result = new HashSet<>();
       if (source == target) {
           result.add(sub);
           return result;

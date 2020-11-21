@@ -12,19 +12,24 @@ public class NetworkFlowQuizExtra {
     /**
      * Using breadth-first traverse.
      * @param graph  a directed graph.
-     * @param source the ource vertex.
+     * @param source the source vertex.
      * @param target the target vertex.
      * @return a set of all augmenting paths between the specific source and target vertices in the graph.
      */
     public Set<Subgraph> getAugmentingPaths(Graph graph, int source, int target) {
         Set<Subgraph> result = new HashSet<>();
+        Set<Subgraph> temp = new HashSet<>();
         for (Edge edge : graph.getIncomingEdges(target)) {
-            result.addAll(getAugmentingPathAux(graph, source, edge.getSource()));
+            Subgraph level1 = new Subgraph();
+            level1.addEdge(edge);
+            temp.add(level1);
+            if (level1.contains(source)) result.add(level1);
         }
+        for (Subgraph level : temp) getAugmentingPaths(graph, source, level.);
         return result;
     }
 
-    private Set<Subgraph> getAugmentingPathAux(Graph graph, int source, int target) {
+    private Set<Subgraph> getAugmentingPathAux(Graph graph, int source, Set<Subgraph> subgraphs) {
         Set<Subgraph> result =  new HashSet<>();
         if (source == target) {
             result.add(sub);
