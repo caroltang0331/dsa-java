@@ -25,26 +25,8 @@ public class NetworkFlowQuizExtra {
             temp.add(level1);
             if (level1.contains(source)) result.add(level1);
         }
-        for (Subgraph level : temp) getAugmentingPaths(graph, source, level.);
         return result;
     }
 
-    private Set<Subgraph> getAugmentingPathAux(Graph graph, int source, Set<Subgraph> subgraphs) {
-        Set<Subgraph> result =  new HashSet<>();
-        if (source == target) {
-            result.add(sub);
-            return result;
-        }
-        Subgraph tmp;
 
-        for (Edge edge : graph.getIncomingEdges(target)) {
-            if (sub.contains(edge.getSource())) continue;    // cycle
-            tmp = new Subgraph(sub);
-            tmp.addEdge(edge);
-            result.addAll(getAugmentingPathAux(graph, tmp, source, edge.getSource()));
-
-        }
-        return result;
-
-    }
 }

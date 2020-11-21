@@ -41,14 +41,14 @@ public class AugPathQuizTest {
         graph0.setDirectedEdge(3, 2, 1);
         graph0.setDirectedEdge(3, 5, 1);
         graph0.setDirectedEdge(4, 5, 1);
-        //System.out.println(nwf.getAugmentingPaths(graph0, 0,5));
+        System.out.println(nwf.getAugmentingPaths(graph0, 0,5));
 
         // Test1
         graph1.setDirectedEdge(0,1,1);
         graph1.setDirectedEdge(0,2,1);
         graph1.setDirectedEdge(1,3,1);
         graph1.setDirectedEdge(2,3,1);
-        System.out.println(nwf.getAugmentingPaths(graph1, 0,3)); //0-1-3 & 0-2-3
+        //System.out.println(nwf.getAugmentingPaths(graph1, 0,3)); //0-1-3 & 0-2-3
 ////Test2#2
 //        graph2.setDirectedEdge(0, 2, 1);
 //        graph2.setDirectedEdge(1, 0, 1);
