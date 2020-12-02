@@ -19,22 +19,22 @@ public class MSTAllHWTest {
             st = System.currentTimeMillis();
             List<SpanningTree> list = gold.getMinimumSpanningTrees(getCompleteGraph(i));
             et = System.currentTimeMillis();
-            //System.out.printf("%3d: %8d, %d\n", i, list.size(), et - st);
+            System.out.printf("%3d: %8d, %d\n", i, list.size(), et - st);
         }
     }
 
     @Test
     public void test() {
         List<Graph> graphs = new ArrayList<>();
-//        graphs.add(getGraph1a());
-//        graphs.add(getGraph2a());
+        graphs.add(getGraph1a());
+        graphs.add(getGraph2a());
         graphs.add(getGraph3a());
         graphs.add(getGraph3b());
-//        graphs.add(getGraph3c());
-//        graphs.add(getGraph4a());
-//        graphs.add(getGraph4b());
-//        graphs.add(getGraph4c());
-//        graphs.add(getGraph5a());
+        graphs.add(getGraph3c());
+        graphs.add(getGraph4a());
+        graphs.add(getGraph4b());
+        graphs.add(getGraph4c());
+        graphs.add(getGraph5a());
 
         int i, correct = 0, total = graphs.size();
         MSTAll gold = new MSTAllHW(); //one of them used to be MSTAllHWSol

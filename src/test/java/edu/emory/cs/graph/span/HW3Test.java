@@ -9,32 +9,20 @@ import java.util.*;
 /**
  * @author Jinho D. Choi ({@code jinho.choi@emory.edu})
  */
-public class GraphTest {
-    //@Test
-    public void testCompleteGraphs() {
-        MSTAll gold = new MSTAllHW();
-        long st, et;
-
-        for (int i = 1; i < 10; i++) {
-            st = System.currentTimeMillis();
-            List<SpanningTree> list = gold.getMinimumSpanningTrees(getCompleteGraph(i));
-            et = System.currentTimeMillis();
-            System.out.printf("%3d: %8d, %d\n", i, list.size(), et - st);
-        }
-    }
+public class HW3Test {
 
     @Test
     public void test() {
         List<Graph> graphs = new ArrayList<>();
-        graphs.add(getGraph1a());
+//        graphs.add(getGraph1a());
         graphs.add(getGraph2a());
-        graphs.add(getGraph3a());
-        graphs.add(getGraph3b());
-        graphs.add(getGraph3c());
-        graphs.add(getGraph4a());
-        graphs.add(getGraph4b());
-        graphs.add(getGraph4c());
-        graphs.add(getGraph5a());
+//        graphs.add(getGraph3a());
+//        graphs.add(getGraph3b());
+//        graphs.add(getGraph3c());
+//        graphs.add(getGraph4a());
+//        graphs.add(getGraph4b());
+//        graphs.add(getGraph4c());
+//        graphs.add(getGraph5a());
 
         int i, correct = 0, total = graphs.size();
         MSTAll gold = new MSTAllHW(); //one of them used to be MSTAllHWSol
@@ -50,6 +38,7 @@ public class GraphTest {
             try {
                 if (test(gold.getMinimumSpanningTrees(graph), system.getMinimumSpanningTrees(graph))) {
                     b = true;
+                    System.out.println("printing: " + system.getMinimumSpanningTrees(graph));
                     correct++;
                 }
             } catch (Exception ignored) {}
