@@ -18,7 +18,7 @@ public class HW3Test {
 //        graphs.add(getGraph1a());
 //        graphs.add(getGraph2a());
         MSTAllHW test = new MSTAllHW();
-        System.out.println(test.getMinimumSpanningTrees(getGraph3c()));
+        System.out.println(test.getMinimumSpanningTrees(getGraph5b()));
 
 //        graphs.add(getGraph3a());
 //        graphs.add(getGraph3b());
