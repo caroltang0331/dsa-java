@@ -21,13 +21,9 @@ public class MSTPrim implements MST {
 
         // add all connecting vertices from start vertex to the queue
         add(queue, visited, graph, 0);
-        System.out.println("queue before poll" + queue);
 
         while (!queue.isEmpty()) {
             edge = queue.poll();
-            System.out.println("queue " + queue);
-            System.out.println("target " + edge.getTarget());
-            System.out.println("Source " + edge.getSource());
 
             if (!visited.contains(edge.getSource())) {
                 tree.addEdge(edge);
@@ -35,11 +31,8 @@ public class MSTPrim implements MST {
                 if (tree.size() + 1 == graph.size()) break;
                 // add all connecting vertices from current vertex to the queue
                 add(queue, visited, graph, edge.getSource());
-                System.out.println("after add " + queue);
-
             }
         }
-
         return tree;
     }
 

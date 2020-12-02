@@ -12,18 +12,11 @@ public class MSTKruskal implements MST {
     @Override
     public SpanningTree getMinimumSpanningTree(Graph graph) {
         PriorityQueue<Edge> queue = new PriorityQueue<>(graph.getAllEdges());
-        System.out.println("queue" + queue);
         DisjointSet forest = new DisjointSet(graph.size());
         SpanningTree tree = new SpanningTree();
 
         while (!queue.isEmpty()) {
             Edge edge = queue.poll();
-//            System.out.println("target " + edge.getTarget());
-//            System.out.println("source " + edge.getSource());
-            System.out.println("queue" + queue);
-
-
-
             if (!forest.inSameSet(edge.getTarget(), edge.getSource())) {
                 tree.addEdge(edge);
 
@@ -33,7 +26,6 @@ public class MSTKruskal implements MST {
                 forest.union(edge.getTarget(), edge.getSource());
             }
         }
-
         return tree;
     }
 }
