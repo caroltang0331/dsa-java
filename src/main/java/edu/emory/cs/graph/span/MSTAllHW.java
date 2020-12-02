@@ -3,6 +3,7 @@ package edu.emory.cs.graph.span;
 import edu.emory.cs.graph.Edge;
 import edu.emory.cs.graph.Graph;
 import edu.emory.cs.set.DisjointSet;
+import java.util.PriorityQueue;
 
 import java.sql.SQLOutput;
 import java.util.*;
@@ -16,13 +17,9 @@ public class MSTAllHW implements MSTAll {
         MST tree = new MSTKruskal();
         SpanningTree first = tree.getMinimumSpanningTree(graph);
         List<SpanningTree> for2 = new ArrayList<>();
-        if (graph.size() == 2) {
-            for2.add(first);
-            return for2;
-        }
         double minWeight = first.getTotalWeight();
-        //System.out.println("first tree is "+ first);
-        //System.out.println("minWeight is" + minWeight);
+        System.out.println("first tree is "+ first);
+        System.out.println("minWeight is" + minWeight);
 
         Map<Integer, Edge> Must = new HashMap<>();
         Map<Integer, Edge> Cannot = new HashMap<>();
@@ -35,13 +32,15 @@ public class MSTAllHW implements MSTAll {
             graph1.getIncomingEdges(Cannot.get(i).getTarget()).removeIf(Edges -> Edges.getSource() == Cannot.get(finalI).getSource());
         }
         PriorityQueue<Edge> queue = new PriorityQueue<>(graph1.getAllEdges());
-        ArrayDeque<Edge> queue2 = new ArrayDeque<>(queue);
+        ArrayDeque<Edge> queue2 = new ArrayDeque<>();
+        while (!queue.isEmpty()) queue2.addLast(queue.poll());
+
         DisjointSet forest = new DisjointSet(graph1.size());
         SpanningTree tree = new SpanningTree();
 
         for (Edge edge : Must.values()) queue2.addFirst(edge);
-        while (!queue.isEmpty()) {
-            Edge edge = queue.poll();
+        while (!queue2.isEmpty()) {
+            Edge edge = queue2.poll();
             if (!forest.inSameSet(edge.getTarget(), edge.getSource())) {
                 tree.addEdge(edge);
 
@@ -53,16 +52,17 @@ public class MSTAllHW implements MSTAll {
                 forest.union(edge.getTarget(), edge.getSource());
             }
         }
-        if (tree.size() != graph.size()) return null;//System.out.println("krusakl retun tree " + tree);
+        if (tree.size() + 1 != graph.size()) return null;//System.out.println("krusakl retun tree " + tree);
         return tree;
     }
     public List<SpanningTree> MSTAux(Graph graph, double weight, Map<Integer, Edge> MustHave, Map<Integer, Edge> CannotHave) {
         SpanningTree found = Kruskal1(weight, graph, MustHave, CannotHave);
         List<SpanningTree> result = new ArrayList<>();
+        System.out.println("found is " + found);
         if (found != null) {
             result.add(found);
-            //System.out.println("result + found " + result);
-            //System.out.println("musthave.size " + MustHave.size());
+            System.out.println("result + found " + result);
+            System.out.println("musthave.size " + MustHave.size());
             for (int i = MustHave.size()/2 + MustHave.size()%2 ; i < graph.size() - 1; i++) {
                 Map<Integer, Edge> subCannot = new HashMap<>(CannotHave);
                 Edge edge = found.getEdges().get(i);
@@ -72,11 +72,11 @@ public class MSTAllHW implements MSTAll {
                 for (Edge edge1 : reverse) {
                     if (edge1.getSource() == edge.getTarget()) subCannot.put(subCannot.size(), edge1);
                 }
-                //System.out.println("subCannot " + subCannot);
+                System.out.println("subCannot " + subCannot);
 
                 Map<Integer, Edge> subMust = new HashMap<>(MustHave);
-                //System.out.println("i is " + i);
-                //System.out.println("subMust.size" + subMust.size());
+                System.out.println("i is " + i);
+                System.out.println("subMust.size" + subMust.size());
                 for (int j = MustHave.size()/2 + MustHave.size()%2; j < i; j++) {
                     Edge front = found.getEdges().get(j);
                     subMust.put(subMust.size(), front);
@@ -85,11 +85,11 @@ public class MSTAllHW implements MSTAll {
                             subMust.put(subMust.size(), back);
                         }
                 }
-                //System.out.println("subMust " + subMust);
+                System.out.println("subMust " + subMust);
                 result.addAll(MSTAux(graph, weight, subMust, subCannot));
             }
         }
-        //System.out.println("result: " + result);
+        System.out.println("result: " + result);
         return result;
     }
 }

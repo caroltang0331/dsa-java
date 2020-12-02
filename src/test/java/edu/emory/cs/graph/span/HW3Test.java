@@ -4,6 +4,7 @@ import edu.emory.cs.graph.Edge;
 import edu.emory.cs.graph.Graph;
 import org.junit.Test;
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 /**
@@ -15,7 +16,10 @@ public class HW3Test {
     public void test() {
         List<Graph> graphs = new ArrayList<>();
 //        graphs.add(getGraph1a());
-        graphs.add(getGraph2a());
+//        graphs.add(getGraph2a());
+        MSTAllHW test = new MSTAllHW();
+        System.out.println(test.getMinimumSpanningTrees(getGraph3c()));
+
 //        graphs.add(getGraph3a());
 //        graphs.add(getGraph3b());
 //        graphs.add(getGraph3c());
@@ -24,29 +28,6 @@ public class HW3Test {
 //        graphs.add(getGraph4c());
 //        graphs.add(getGraph5a());
 
-        int i, correct = 0, total = graphs.size();
-        MSTAll gold = new MSTAllHW(); //one of them used to be MSTAllHWSol
-        MSTAll system = new MSTAllHW();
-        Graph graph;
-        boolean b;
-
-        for (i = 0; i < total; i++) {
-            graph = graphs.get(i);
-            b = false;
-
-
-            try {
-                if (test(gold.getMinimumSpanningTrees(graph), system.getMinimumSpanningTrees(graph))) {
-                    b = true;
-                    System.out.println("printing: " + system.getMinimumSpanningTrees(graph));
-                    correct++;
-                }
-            } catch (Exception ignored) {}
-
-            System.out.printf("%2d: %b\n", (i + 1), b);
-        }
-
-        System.out.printf("Score: %d/%d\n", correct, total);
     }
 
     Graph getGraph1a() {
