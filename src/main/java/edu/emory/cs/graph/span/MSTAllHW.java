@@ -18,11 +18,11 @@ public class MSTAllHW implements MSTAll {
         SpanningTree first = tree.getMinimumSpanningTree(graph);
         double minWeight = first.getTotalWeight();
 
-        Map<Integer, Edge> Must = new HashMap<>();
-        Map<Integer, Edge> Cannot = new HashMap<>();
+        List<Edge> Must = new ArrayList<>();
+        List<Edge> Cannot = new ArrayList<>();
         return new ArrayList<>(MSTAux(graph, minWeight, Must, Cannot));
     }
-    public SpanningTree Kruskal1(double first, Graph graph, Map<Integer, Edge> Must, Map<Integer, Edge> Cannot) {
+    public SpanningTree Kruskal1(double first, Graph graph, List<Edge> Must, List<Edge> Cannot) {
         Graph graph1 = new Graph(graph);
         for (int i = 0; i < Cannot.size(); i++) {
             int finalI = i;
@@ -35,7 +35,7 @@ public class MSTAllHW implements MSTAll {
         DisjointSet forest = new DisjointSet(graph1.size());
         SpanningTree tree = new SpanningTree();
 
-        for (Edge edge : Must.values()) queue2.addFirst(edge);
+        for (Edge edge : Must) queue2.addFirst(edge);
         while (!queue2.isEmpty()) {
             Edge edge = queue2.poll();
             if (!forest.inSameSet(edge.getTarget(), edge.getSource())) {
@@ -51,29 +51,29 @@ public class MSTAllHW implements MSTAll {
         if (tree.size() + 1 != graph.size()) return null;
         return tree;
     }
-    public List<SpanningTree> MSTAux(Graph graph, double weight, Map<Integer, Edge> MustHave, Map<Integer, Edge> CannotHave) {
+    public List<SpanningTree> MSTAux(Graph graph, double weight, List<Edge> MustHave, List<Edge> CannotHave) {
         SpanningTree found = Kruskal1(weight, graph, MustHave, CannotHave);
         List<SpanningTree> result = new ArrayList<>();
         if (found != null) {
             result.add(found);
 
             for (int i = MustHave.size()/2 + MustHave.size()%2 ; i < graph.size() - 1; i++) {
-                Map<Integer, Edge> subCannot = new HashMap<>(CannotHave);
+                List<Edge> subCannot = new ArrayList<>(CannotHave);
                 Edge edge = found.getEdges().get(i);
-                subCannot.put(subCannot.size(), edge);
+                subCannot.add(subCannot.size(), edge);
                 List<Edge> reverse = graph.getIncomingEdges(edge.getSource());
 
                 for (Edge edge1 : reverse) {
-                    if (edge1.getSource() == edge.getTarget()) subCannot.put(subCannot.size(), edge1);
+                    if (edge1.getSource() == edge.getTarget()) subCannot.add(subCannot.size(), edge1);
                 }
 
-                Map<Integer, Edge> subMust = new HashMap<>(MustHave);
+                List<Edge> subMust = new ArrayList<>(MustHave);
                 for (int j = MustHave.size()/2 + MustHave.size()%2; j < i; j++) {
                     Edge front = found.getEdges().get(j);
-                    subMust.put(subMust.size(), front);
+                    subMust.add(subMust.size(), front);
                     for (Edge back : graph.getIncomingEdges(front.getSource()))
                         if (back.getSource() == front.getTarget()) {
-                            subMust.put(subMust.size(), back);
+                            subMust.add(subMust.size(), back);
                         }
                 }
                 result.addAll(MSTAux(graph, weight, subMust, subCannot));
